@@ -16,7 +16,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '') as unknown as ViteEnv;
 
   return {
-    base: env.VITE_BASE_URL || '/',
+    base: env.VITE_BASE_URL || '/portfolio/',
     plugins: [
       react({
         jsxImportSource: '@emotion/react',

@@ -1,0 +1,16 @@
+# GitHub Pages configuration
+# This file tells GitHub Pages that this is not a Jekyll site
+# and should be served as static files
+
+# Disable Jekyll processing
+plugins: []
+
+# Set the source directory (not used for static sites)
+source: .
+
+# Set the destination directory (not used for static sites)
+destination: ./dist
+
+# Disable Jekyll processing completely
+exclude: []
+include: []
