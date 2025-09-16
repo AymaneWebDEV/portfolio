@@ -19,7 +19,9 @@ const Experience = () => {
     }))
   ].sort((a, b) => {
     // Sort by period (most recent first)
-    return new Date(b.period.split(' - ')[0]) - new Date(a.period.split(' - ')[0]);
+    const dateA = new Date(a.period.split(' - ')[0]);
+    const dateB = new Date(b.period.split(' - ')[0]);
+    return dateB.getTime() - dateA.getTime();
   });
 
   return (

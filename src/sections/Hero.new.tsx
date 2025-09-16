@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { FaGithub, FaLinkedin, FaTwitter, FaInstagram } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
 import { HiOutlineMail } from 'react-icons/hi';
 import { Link as ScrollLink } from 'react-scroll';
 import SITE_CONFIG from '../config/site';

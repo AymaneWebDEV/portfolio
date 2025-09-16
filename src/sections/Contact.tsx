@@ -15,6 +15,7 @@ interface ContactFormData {
   email: string;
   subject: string;
   message: string;
+  [key: string]: string;
 }
 
 interface ContactInfoItem {

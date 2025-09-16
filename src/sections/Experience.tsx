@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { FaBriefcase, FaGraduationCap, FaCalendarAlt, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaBriefcase, FaGraduationCap, FaMapMarkerAlt } from 'react-icons/fa';
 import { useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import SITE_CONFIG from '../config/site';
@@ -61,20 +61,23 @@ const Experience = () => {
       ...exp,
       icon: <FaBriefcase className="w-5 h-5 text-purple-400" />,
       type: 'work' as const,
-      description: Array.isArray(exp.description) ? exp.description : [exp.description]
+      description: Array.isArray(exp.description) ? [...exp.description] : [exp.description],
+      tags: exp.tags ? [...exp.tags] : []
     })),
     ...SITE_CONFIG.education.map(edu => ({
       role: edu.degree,
       company: edu.institution,
       period: edu.period,
-      description: edu.description,
+      description: [...edu.description],
       icon: <FaGraduationCap className="w-5 h-5 text-blue-400" />,
       type: 'education' as const,
-      location: edu.location
+      location: 'location' in edu ? (edu.location as string) : 'Non spécifié'
     }))
   ].sort((a, b) => {
     // Sort by period (most recent first)
-    return new Date(b.period.split(' - ')[0]) - new Date(a.period.split(' - ')[0]);
+    const dateA = new Date(a.period.split(' - ')[0]);
+    const dateB = new Date(b.period.split(' - ')[0]);
+    return dateB.getTime() - dateA.getTime();
   });
 
   const filteredExperiences = experiences.filter(exp => {
@@ -82,10 +85,6 @@ const Experience = () => {
     return exp.type === activeTab;
   });
 
-  const formatDate = (dateStr: string) => {
-    const [start, end] = dateStr.split(' - ');
-    return { start, end };
-  };
 
   return (
     <section 
@@ -193,7 +192,6 @@ const Experience = () => {
           <div className="absolute left-1/2 w-1 h-full bg-gradient-to-b from-blue-500/30 to-cyan-500/30 transform -translate-x-1/2"></div>
           
           {filteredExperiences.map((exp, index) => {
-            const { start, end } = formatDate(exp.period);
             const isEven = index % 2 === 0;
             
             return (

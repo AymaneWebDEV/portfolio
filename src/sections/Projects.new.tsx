@@ -3,7 +3,7 @@ import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
 import SITE_CONFIG from '../config/site';
 
 interface ProjectCardProps {
-  project: typeof SITE_CONFIG.projects[0];
+  project: any;
   index: number;
 }
 
@@ -34,7 +34,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
         <p className="text-gray-600 mb-4">{project.description}</p>
         
         <div className="flex flex-wrap gap-2 mb-4">
-          {project.tags.map((tag, idx) => (
+          {project.tags.map((tag: string, idx: number) => (
             <span 
               key={idx} 
               className="px-3 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full"

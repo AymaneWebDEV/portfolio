@@ -81,17 +81,6 @@ const FallbackIcon = ({ name }: { name: string }) => (
   </div>
 );
 
-interface SkillCategory {
-  id: string;
-  name: string;
-  icon: React.ReactNode;
-  items: string[];
-  color: string;
-  bgColor: string;
-  borderColor: string;
-  hoverColor: string;
-  activeColor: string;
-}
 
 const About = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -154,12 +143,6 @@ const About = () => {
     },
   };
 
-  const stats = [
-    { label: 'Projets', value: '15+', description: 'Projets réalisés' },
-    { label: 'Expérience', value: '2+', description: 'Années' },
-    { label: 'Clients', value: '10+', description: 'Satisfaits' },
-    { label: 'Compétences', value: '20+', description: 'Maîtrisées' }
-  ];
 
   const skillCategories = [
     { 
