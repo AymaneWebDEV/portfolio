@@ -215,9 +215,7 @@ export function Hero() {
 
   return (
     <section className="relative h-screen flex items-center justify-center overflow-hidden pt-16">
-      {/* Backgrounds */}
-      <ParticleField />
-      <FloatingOrbs />
+      {/* Background handled by global AnimatedBackground */}
 
       {/* Subtle Grid */}
       <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:60px_60px]" />
