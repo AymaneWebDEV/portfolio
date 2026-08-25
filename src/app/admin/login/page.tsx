@@ -59,6 +59,31 @@ export default function AdminLogin() {
     if (value && index < 5) {
       digitInputRefs.current[index + 1]?.focus();
     }
+
+    // Auto submit when all 6 digits are filled
+    if (value && nextDigits.every((d) => d !== "")) {
+      const code = nextDigits.join("");
+      setError("");
+      setLoading(true);
+      fetch("/api/auth/verify-otp", {
+        method: "POST",
+        body: JSON.stringify({ otpToken, code }),
+        headers: { "Content-Type": "application/json" },
+      })
+        .then((res) => res.json().then((data) => ({ ok: res.ok, data })))
+        .then(({ ok, data }) => {
+          if (ok) {
+            window.location.href = "/admin";
+          } else {
+            setError(data.error || "Invalid verification code");
+            setLoading(false);
+          }
+        })
+        .catch(() => {
+          setError("Verification failed");
+          setLoading(false);
+        });
+    }
   };
 
   const handleOtpKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -88,13 +113,13 @@ export default function AdminLogin() {
       const data = await res.json();
 
       if (res.ok) {
-        router.push("/admin");
+        window.location.href = "/admin";
       } else {
         setError(data.error || "Invalid verification code");
+        setLoading(false);
       }
     } catch {
       setError("Verification failed");
-    } finally {
       setLoading(false);
     }
   };
