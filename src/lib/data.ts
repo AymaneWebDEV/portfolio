@@ -1,9 +1,9 @@
 export interface ProjectItem {
-  _id: string;
+  _id?: string;
   id?: string;
   title: string;
   slug: string;
-  category: "AI & Deep Learning" | "Full Stack" | "Frontend" | "DevOps" | "Big Data & Cloud";
+  category: "AI & Deep Learning" | "Full Stack" | "Frontend" | "DevOps" | "Big Data & Cloud" | "Software Engineering";
   description: string;
   content: string;
   technologies: string[];
@@ -17,7 +17,8 @@ export interface ProjectItem {
 }
 
 export interface ExperienceItem {
-  _id: string;
+  _id?: string;
+  id?: string;
   type: "work" | "education";
   title: string;
   organization: string;
@@ -26,6 +27,18 @@ export interface ExperienceItem {
   tags: string[];
   details?: string[];
 }
+
+export interface CertificationItem {
+  title: string;
+  issuer: string;
+}
+
+export const certifications: CertificationItem[] = [
+  { title: "Advanced React", issuer: "Meta (Coursera)" },
+  { title: "jQuery Web Development and Programming", issuer: "Alison" },
+  { title: "Cisco Python Essentials 1", issuer: "Cisco Networking Academy" },
+  { title: "Linux Essentials", issuer: "TCM Security" },
+];
 
 export const projects: ProjectItem[] = [
   {
@@ -36,7 +49,7 @@ export const projects: ProjectItem[] = [
     category: "AI & Deep Learning",
     year: "2026",
     featured: true,
-    description: "Medical computer vision system utilizing PyTorch & OpenCV to classify thyroid nodules as benign or malignant from ultrasound scans and videos.",
+    description: "Medical computer vision system utilizing PyTorch & OpenCV to classify thyroid nodules as benign or malignant from ultrasound scans and dynamic video feeds.",
     content: `
       Developed during my engineering internship at **VitalTech Maroc**, ThyroVision AI is an end-to-end deep learning solution designed to assist healthcare professionals in diagnosing thyroid nodule malignancy from ultrasound imaging.
 
@@ -65,6 +78,56 @@ export const projects: ProjectItem[] = [
     demoLink: "#"
   },
   {
+    _id: "accent-ai-assistant",
+    id: "accent-ai-assistant",
+    title: "Accent Product AI Assistant & Admin Platform",
+    slug: "accent-ai-assistant",
+    category: "AI & Deep Learning",
+    year: "2025",
+    featured: true,
+    description: "Virtual AI product presentation assistant built with React.js, Spring Boot, and Rasa NLP, featuring a secure JWT admin dashboard and virtualized infrastructure.",
+    content: `
+      Engineered during my internship at **Accent - DBM Maroc Mohammedia**, this system streamlines corporate product presentation through an intelligent virtual assistant and administrative portal.
+
+      ### Key Features
+      - **Virtual Product Assistant**: Interactive conversational chatbot powered by Rasa NLP for natural language product inquiry and presentation.
+      - **Full-Stack Architecture**: Responsive React.js frontend connected to a robust Spring Boot microservice API.
+      - **Secure Admin Dashboard**: JWT-authenticated administrative panel for managing products, chatbot intent training, and user queries.
+      - **Virtualized Infrastructure**: Server configuration and deployment managed across virtualized environments via **Proxmox** and **VMware**.
+    `,
+    technologies: ["React.js", "Spring Boot", "Rasa NLP", "JWT", "Proxmox", "VMware", "Java"],
+    tech: ["React.js", "Spring Boot", "Rasa NLP", "Proxmox"],
+    visuals: ["/placeholder-project.jpg"],
+    image: "/placeholder-project.jpg",
+    repoLink: "https://github.com/AymaneWebDEV",
+    demoLink: "#"
+  },
+  {
+    _id: "codepeak",
+    id: "codepeak",
+    title: "CodePeak E-Learning Platform",
+    slug: "codepeak",
+    category: "Full Stack",
+    year: "2025",
+    featured: true,
+    description: "Projet de Fin d'Études (ISTA Bouznika): Comprehensive e-learning platform featuring multi-role access, gamification elements, and RESTful Laravel API.",
+    content: `
+      Developed as my **Projet de Fin d'Études** at **ISTA Bouznika**, CodePeak is a modern e-learning platform designed to make digital education interactive and engaging. 
+
+      ### Key Features
+      - **Gamification Engine**: Badges, leaderboards, quiz challenges, and student progress tracking.
+      - **Role-Based Access Control**: Multi-role system (Admin, Instructor, Student) with granular permissions powered by JWT authentication.
+      - **Course Management & Media**: Video lesson hosting, quizzes, and assignment submissions.
+      - **Architecture**: Decoupled architecture with a React.js frontend communicating with a RESTful Laravel API and MySQL database.
+    `,
+    technologies: ["React.js", "Laravel", "PHP", "MySQL", "JWT", "Tailwind CSS"],
+    tech: ["React.js", "Laravel", "MySQL", "JWT"],
+    visuals: ["/placeholder-project.jpg"],
+    image: "/placeholder-project.jpg",
+    repoLink: "https://github.com/AymaneWebDEV",
+    demoLink: "#"
+  },
+  {
     _id: "bigdata-telemetry-engine",
     id: "bigdata-telemetry-engine",
     title: "Big Data Telemetry & Analytics Engine",
@@ -89,28 +152,24 @@ export const projects: ProjectItem[] = [
     demoLink: "#"
   },
   {
-    _id: "codepeak",
-    id: "codepeak",
-    title: "CodePeak E-Learning Platform",
-    slug: "codepeak",
-    category: "Full Stack",
-    year: "2025",
-    featured: true,
-    description: "Comprehensive e-learning platform featuring multi-role access, gamification elements, and interactive course management.",
+    _id: "timetable-management",
+    id: "timetable-management",
+    title: "Timetable Management Desktop App",
+    slug: "timetable-management",
+    category: "Software Engineering",
+    year: "2024",
+    featured: false,
+    description: "Desktop application developed in Python (Tkinter & SQLite) for automating training center timetable scheduling and schedule conflict resolution.",
     content: `
-      CodePeak is a modern e-learning platform designed to make learning interactive and engaging. 
-      It features a robust role-based system (Admin, Instructor, Student) enabling seamless course creation and consumption.
+      Developed at **ISTA Bouznika** to automate timetable generation for training center schedules.
 
       ### Key Features
-      - **Gamification**: Badges, leaderboards, and progress tracking.
-      - **Role-Based Access**: Secure JWT authentication with granular permissions.
-      - **Course Management**: Video hosting, quizzes, and assignments.
-
-      ### Technical Architecture
-      Built with a decoupled architecture using React for the frontend and Laravel (PHP) for the API with MySQL database.
+      - **Schedule Automation**: Algorithmic scheduling reducing conflict overlaps for instructors and rooms.
+      - **Graphical Interface**: Custom Tkinter UI optimized for intuitive administrative navigation.
+      - **Local Storage**: Embedded SQLite database for rapid local data retrieval and schedule exports.
     `,
-    technologies: ["React", "Laravel", "MySQL", "JWT", "Tailwind CSS"],
-    tech: ["React", "Laravel", "MySQL", "JWT"],
+    technologies: ["Python", "Tkinter", "SQLite", "Software Engineering"],
+    tech: ["Python", "Tkinter", "SQLite"],
     visuals: ["/placeholder-project.jpg"],
     image: "/placeholder-project.jpg",
     repoLink: "https://github.com/AymaneWebDEV",
@@ -119,55 +178,17 @@ export const projects: ProjectItem[] = [
   {
     _id: "ramzo",
     id: "ramzo",
-    title: "RAMZO E-commerce",
+    title: "RAMZO E-Commerce Responsive UI",
     slug: "ramzo",
-    category: "Full Stack",
-    year: "2025",
-    featured: true,
-    description: "Feature-rich e-commerce platform with improved UX, dynamic product management, and secure checkout flow.",
-    content: `
-      A modern e-commerce application built with Next.js and Node.js. Includes secure payment gateways, cart management, and admin order fulfillment dashboard.
-    `,
-    technologies: ["Next.js", "Node.js", "MongoDB", "Stripe", "Tailwind CSS"],
-    tech: ["Next.js", "Node.js", "MongoDB", "Stripe"],
-    visuals: ["/placeholder-project.jpg"],
-    image: "/placeholder-project.jpg",
-    repoLink: "https://github.com/AymaneWebDEV",
-    demoLink: "#"
-  },
-  {
-    _id: "accent",
-    id: "accent",
-    title: "Accent Agency Website",
-    slug: "accent",
     category: "Frontend",
     year: "2024",
     featured: false,
-    description: "Corporate showcase website with responsive UI and smooth animations built for a modern digital agency.",
+    description: "Responsive e-commerce showcase application developed with HTML5, CSS3, and Bootstrap for optimal user experience across all devices.",
     content: `
-      High-performance landing page showcasing digital services with customized micro-interactions and Framer Motion animations.
+      Created at **ISTA Bouznika** focusing on frontend UI/UX engineering, interactive product filtering, and mobile-first responsiveness.
     `,
-    technologies: ["React", "Tailwind CSS", "Framer Motion", "TypeScript"],
-    tech: ["React", "Tailwind CSS", "Framer Motion"],
-    visuals: ["/placeholder-project.jpg"],
-    image: "/placeholder-project.jpg",
-    repoLink: "https://github.com/AymaneWebDEV",
-    demoLink: "#"
-  },
-  {
-    _id: "helpdesk",
-    id: "helpdesk",
-    title: "Internal Helpdesk System",
-    slug: "helpdesk",
-    category: "Full Stack",
-    year: "2024",
-    featured: false,
-    description: "Internal ticket management system for streamlining IT support workflows, priority resolution, and issue tracking.",
-    content: `
-      Ticket management web app automating support workflows, status tracking, and technician assignment.
-    `,
-    technologies: ["PHP", "MySQL", "Bootstrap", "JavaScript"],
-    tech: ["PHP", "MySQL", "Bootstrap"],
+    technologies: ["HTML5", "CSS3", "Bootstrap", "JavaScript"],
+    tech: ["HTML5", "CSS3", "Bootstrap"],
     visuals: ["/placeholder-project.jpg"],
     image: "/placeholder-project.jpg",
     repoLink: "https://github.com/AymaneWebDEV",
@@ -197,6 +218,7 @@ export const projects: ProjectItem[] = [
 export const experiences: ExperienceItem[] = [
   {
     _id: "vitaltech-maroc",
+    id: "vitaltech-maroc",
     type: "work",
     title: "Deep Learning & Computer Vision Intern",
     organization: "VitalTech Maroc",
@@ -221,7 +243,33 @@ export const experiences: ExperienceItem[] = [
     ]
   },
   {
+    _id: "accent-dbm",
+    id: "accent-dbm",
+    type: "work",
+    title: "Stage en Développement Web et Infrastructure IT",
+    organization: "Accent - DBM Maroc (Mohammedia, Morocco)",
+    period: "Avril 2025 – Mai 2025",
+    description: "Developed a virtual AI presentation assistant with React.js, Spring Boot, and Rasa NLP, built a secure JWT admin portal, and configured virtualized server infrastructure.",
+    tags: ["React.js", "Spring Boot", "Rasa NLP", "JWT", "Proxmox", "VMware"],
+    details: [
+      "Développement d'un assistant virtuel intelligent pour la présentation de produits (React.js, Spring Boot, Rasa NLP).",
+      "Création d'une interface d'administration sécurisée avec JWT pour la gestion des produits et du chatbot.",
+      "Configuration et administration de serveurs virtualisés via Proxmox et VMware."
+    ]
+  },
+  {
+    _id: "codepeak-pfe",
+    id: "codepeak-pfe",
+    type: "work",
+    title: "Projet de Fin d'Études — Plateforme E-Learning CodePeak",
+    organization: "ISTA Bouznika (Morocco)",
+    period: "Octobre 2024 – Juin 2025",
+    description: "Conception et développement d'une plateforme e-learning complète avec système multi-rôles, gamification intégrée et architecture API RESTful (React.js, Laravel, JWT).",
+    tags: ["React.js", "Laravel", "REST API", "JWT", "Gamification", "MySQL"]
+  },
+  {
     _id: "freelance-dev",
+    id: "freelance-dev",
     type: "work",
     title: "Freelance Full-Stack Developer",
     organization: "Self-Employed",
@@ -230,12 +278,23 @@ export const experiences: ExperienceItem[] = [
     tags: ["React", "Next.js", "Node.js", "MongoDB", "Tailwind CSS"]
   },
   {
-    _id: "education-ai-se",
+    _id: "education-ofppt",
+    id: "education-ofppt",
     type: "education",
-    title: "Software Engineering & Artificial Intelligence Student",
-    organization: "University Engineering Degree",
-    period: "2024 – 2026",
-    description: "Advanced academic specialization focused on Artificial Intelligence, Deep Learning, Software Engineering, Big Data processing, Cloud Infrastructure, and System Administration.",
-    tags: ["Artificial Intelligence", "Deep Learning", "Software Engineering", "Big Data", "Cloud Computing", "Networks"]
+    title: "Deuxième année en Développement Digital (Option Web Full-Stack)",
+    organization: "ISTA Bouznika (Morocco)",
+    period: "Depuis Septembre 2023",
+    description: "Formation approfondie en développement web (front-end et back-end), projets académiques (Python, PHP, JavaScript), design d'interfaces et optimisation d'applications.",
+    tags: ["Full-Stack", "React.js", "Laravel", "Python", "PHP", "JavaScript"]
+  },
+  {
+    _id: "education-bac",
+    id: "education-bac",
+    type: "education",
+    title: "Baccalauréat Science Physique en Français",
+    organization: "Lycée Charif El Idrissi (Benslimane, Morocco)",
+    period: "Septembre 2020 – Juin 2023",
+    description: "Spécialisation en sciences expérimentales (mathématiques, physique, chimie) et développement des capacités analytiques et de communication.",
+    tags: ["Physics", "Mathematics", "Science"]
   }
 ];

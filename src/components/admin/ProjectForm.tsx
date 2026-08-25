@@ -3,12 +3,20 @@
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2, Upload, X, Image as ImageIcon } from "lucide-react";
-import { IProject } from "@/models/Project";
 
 interface ProjectFormProps {
-  project?: Partial<IProject>;
+  project?: any;
   isNew?: boolean;
 }
+
+const CATEGORIES = [
+  "AI & Deep Learning",
+  "Full Stack",
+  "Big Data & Cloud",
+  "Frontend",
+  "DevOps",
+  "Software Engineering",
+];
 
 export default function ProjectForm({ project, isNew = false }: ProjectFormProps) {
   const router = useRouter();
@@ -18,14 +26,16 @@ export default function ProjectForm({ project, isNew = false }: ProjectFormProps
   const [formData, setFormData] = useState({
     title: project?.title || "",
     slug: project?.slug || "",
+    category: project?.category || "AI & Deep Learning",
+    year: project?.year || "2026",
     description: project?.description || "",
     content: project?.content || "",
-    tech: project?.technologies?.join(", ") || "",
-    repoLink: project?.repoLink || "",
-    demoLink: project?.demoLink || "",
+    tech: project?.technologies?.join(", ") || project?.tech?.join(", ") || "",
+    repo_link: project?.repo_link || project?.repoLink || "",
+    demo_link: project?.demo_link || project?.demoLink || "",
     featured: project?.featured || false,
   });
-  const [images, setImages] = useState<string[]>(project?.visuals || []);
+  const [images, setImages] = useState<string[]>(project?.visuals || (project?.image ? [project.image] : []));
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -54,7 +64,6 @@ export default function ProjectForm({ project, isNew = false }: ProjectFormProps
 
     setImages((prev) => [...prev, ...newUrls]);
     setUploading(false);
-    // Reset input
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
@@ -67,13 +76,16 @@ export default function ProjectForm({ project, isNew = false }: ProjectFormProps
     setLoading(true);
 
     try {
-      const url = isNew ? "/api/projects" : `/api/projects/${(project as any)._id}`;
+      const projectId = project?.id || project?._id;
+      const url = isNew ? "/api/projects" : `/api/projects/${projectId}`;
       const method = isNew ? "POST" : "PUT";
 
       const payload = {
         ...formData,
         technologies: formData.tech.split(",").map((t) => t.trim()).filter(Boolean),
         visuals: images,
+        repoLink: formData.repo_link,
+        demoLink: formData.demo_link,
       };
 
       const res = await fetch(url, {
@@ -90,34 +102,71 @@ export default function ProjectForm({ project, isNew = false }: ProjectFormProps
         alert(err.error || "Something went wrong");
       }
     } catch {
-      alert("Failed to save");
+      alert("Failed to save project");
     } finally {
       setLoading(false);
     }
   };
 
-  const inputClass = "w-full px-3 py-2 rounded-md bg-background border border-border text-sm";
+  const inputClass = "w-full px-3 py-2 rounded-md bg-background border border-border text-sm focus:outline-none focus:ring-1 focus:ring-primary";
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl">
+    <form onSubmit={handleSubmit} className="space-y-6 max-w-3xl">
       <div className="grid md:grid-cols-2 gap-6">
         <div>
-          <label className="block text-sm font-medium mb-1">Title</label>
+          <label className="block text-sm font-medium mb-1">Project Title</label>
           <input
             type="text"
             required
+            placeholder="ThyroVision AI"
             value={formData.title}
-            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+            onChange={(e) => {
+              const title = e.target.value;
+              const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)+/g, "");
+              setFormData({
+                ...formData,
+                title,
+                slug: isNew ? slug : formData.slug,
+              });
+            }}
             className={inputClass}
           />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">Slug</label>
+          <label className="block text-sm font-medium mb-1">Slug (URL ID)</label>
           <input
             type="text"
             required
+            placeholder="thyrovision-ai"
             value={formData.slug}
             onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+            className={inputClass}
+          />
+        </div>
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-6">
+        <div>
+          <label className="block text-sm font-medium mb-1">Category</label>
+          <select
+            value={formData.category}
+            onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+            className={inputClass}
+          >
+            {CATEGORIES.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label className="block text-sm font-medium mb-1">Year</label>
+          <input
+            type="text"
+            placeholder="2026"
+            value={formData.year}
+            onChange={(e) => setFormData({ ...formData, year: e.target.value })}
             className={inputClass}
           />
         </div>
@@ -128,6 +177,7 @@ export default function ProjectForm({ project, isNew = false }: ProjectFormProps
         <textarea
           required
           rows={3}
+          placeholder="Brief summary of the problem, solution, and outcomes..."
           value={formData.description}
           onChange={(e) => setFormData({ ...formData, description: e.target.value })}
           className={inputClass}
@@ -135,10 +185,11 @@ export default function ProjectForm({ project, isNew = false }: ProjectFormProps
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-1">Content (Markdown)</label>
+        <label className="block text-sm font-medium mb-1">Full Content / Architecture Details</label>
         <textarea
           required
-          rows={10}
+          rows={8}
+          placeholder="Detailed breakdown of key features, algorithms, pipeline, and evaluation metrics..."
           value={formData.content}
           onChange={(e) => setFormData({ ...formData, content: e.target.value })}
           className={`${inputClass} font-mono`}
@@ -149,7 +200,7 @@ export default function ProjectForm({ project, isNew = false }: ProjectFormProps
         <label className="block text-sm font-medium mb-1">Technologies (comma separated)</label>
         <input
           type="text"
-          placeholder="React, Next.js, MongoDB..."
+          placeholder="Python, PyTorch, CUDA, OpenCV, Streamlit, scikit-learn..."
           value={formData.tech}
           onChange={(e) => setFormData({ ...formData, tech: e.target.value })}
           className={inputClass}
@@ -158,32 +209,31 @@ export default function ProjectForm({ project, isNew = false }: ProjectFormProps
 
       <div className="grid md:grid-cols-2 gap-6">
         <div>
-          <label className="block text-sm font-medium mb-1">Repo Link</label>
+          <label className="block text-sm font-medium mb-1">Repository Link</label>
           <input
             type="url"
-            placeholder="https://github.com/..."
-            value={formData.repoLink}
-            onChange={(e) => setFormData({ ...formData, repoLink: e.target.value })}
+            placeholder="https://github.com/AymaneWebDEV/..."
+            value={formData.repo_link}
+            onChange={(e) => setFormData({ ...formData, repo_link: e.target.value })}
             className={inputClass}
           />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">Demo Link</label>
+          <label className="block text-sm font-medium mb-1">Demo / Live Link</label>
           <input
             type="url"
             placeholder="https://example.com"
-            value={formData.demoLink}
-            onChange={(e) => setFormData({ ...formData, demoLink: e.target.value })}
+            value={formData.demo_link}
+            onChange={(e) => setFormData({ ...formData, demo_link: e.target.value })}
             className={inputClass}
           />
         </div>
       </div>
 
-      {/* Image Upload */}
+      {/* Image Management */}
       <div>
-        <label className="block text-sm font-medium mb-2">Project Images</label>
+        <label className="block text-sm font-medium mb-2">Project Visuals & Screenshots</label>
 
-        {/* Image Preview Grid */}
         {images.length > 0 && (
           <div className="grid grid-cols-3 gap-3 mb-3">
             {images.map((url, i) => (
@@ -198,7 +248,7 @@ export default function ProjectForm({ project, isNew = false }: ProjectFormProps
                 </button>
                 {i === 0 && (
                   <span className="absolute bottom-1 left-1 px-2 py-0.5 bg-primary text-primary-foreground text-xs rounded-full">
-                    Thumbnail
+                    Cover Image
                   </span>
                 )}
               </div>
@@ -207,7 +257,6 @@ export default function ProjectForm({ project, isNew = false }: ProjectFormProps
         )}
 
         <div className="flex gap-3">
-          {/* File Upload */}
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
@@ -217,7 +266,7 @@ export default function ProjectForm({ project, isNew = false }: ProjectFormProps
             {uploading ? (
               <><Loader2 className="w-4 h-4 animate-spin" /> Uploading...</>
             ) : (
-              <><Upload className="w-4 h-4" /> Upload from PC</>
+              <><Upload className="w-4 h-4" /> Upload Image</>
             )}
           </button>
           <input
@@ -229,11 +278,10 @@ export default function ProjectForm({ project, isNew = false }: ProjectFormProps
             className="hidden"
           />
 
-          {/* URL input for manual entry */}
           <div className="flex-1 flex gap-2">
             <input
               type="url"
-              placeholder="Or paste image URL..."
+              placeholder="Or paste image URL (e.g. /projects/sample.jpg or https://...)..."
               id="manual-url"
               className={`${inputClass} flex-1`}
               onKeyDown={(e) => {
@@ -256,18 +304,14 @@ export default function ProjectForm({ project, isNew = false }: ProjectFormProps
                   input.value = "";
                 }
               }}
-              className="px-3 py-2 rounded-md border border-border text-sm hover:bg-muted transition-colors"
+              className="px-3 py-2 rounded-md border border-border text-sm hover:bg-muted transition-colors flex items-center gap-1"
             >
-              <ImageIcon className="w-4 h-4" />
+              <ImageIcon className="w-4 h-4" /> Add
             </button>
           </div>
         </div>
-        <p className="text-xs text-muted-foreground mt-2">
-          Upload images from your PC (stored on Cloudinary) or paste URLs. The first image is the project thumbnail.
-        </p>
       </div>
 
-      {/* Featured Toggle */}
       <div className="flex items-center gap-2">
         <input
           type="checkbox"
@@ -276,23 +320,23 @@ export default function ProjectForm({ project, isNew = false }: ProjectFormProps
           onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
           className="rounded"
         />
-        <label htmlFor="featured" className="text-sm font-medium">Featured project</label>
+        <label htmlFor="featured" className="text-sm font-medium">Highlight as Featured Project</label>
       </div>
 
-      <div className="flex justify-end gap-2">
+      <div className="flex justify-end gap-3 pt-4 border-t border-border">
         <button
           type="button"
           onClick={() => router.back()}
-          className="px-4 py-2 text-sm"
+          className="px-4 py-2 text-sm font-medium rounded-md border border-border hover:bg-muted"
         >
           Cancel
         </button>
         <button
           type="submit"
           disabled={loading}
-          className="px-8 py-2 bg-primary text-primary-foreground rounded-md text-sm font-medium disabled:opacity-50"
+          className="px-6 py-2 bg-primary text-primary-foreground rounded-md text-sm font-medium disabled:opacity-50 flex items-center gap-2"
         >
-          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : isNew ? "Create Project" : "Update Project"}
+          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : isNew ? "Create Project" : "Save Changes"}
         </button>
       </div>
     </form>

@@ -1,29 +1,50 @@
+import Link from "next/link";
+import { FolderKanban, Briefcase, Mail } from "lucide-react";
+
 export default function AdminDashboard() {
   return (
     <div className="space-y-8">
-      <h1 className="text-3xl font-bold">Dashboard</h1>
-
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {/* Stats Cards */}
-        <div className="p-6 rounded-xl border border-border bg-card shadow-sm">
-          <h3 className="text-sm font-medium text-muted-foreground">Total Projects</h3>
-          <div className="text-2xl font-bold mt-2">5</div>
-        </div>
-        <div className="p-6 rounded-xl border border-border bg-card shadow-sm">
-          <h3 className="text-sm font-medium text-muted-foreground">Total Updates</h3>
-          <div className="text-2xl font-bold mt-2">12</div>
-        </div>
-        <div className="p-6 rounded-xl border border-border bg-card shadow-sm">
-          <h3 className="text-sm font-medium text-muted-foreground">Views (Last 30d)</h3>
-          <div className="text-2xl font-bold mt-2">1,234</div>
-        </div>
+      <div>
+        <h1 className="text-3xl font-bold">Dashboard</h1>
+        <p className="text-muted-foreground mt-1">Manage your portfolio projects, experience timeline, and messages.</p>
       </div>
 
-      <div className="rounded-xl border border-border bg-card p-6">
-        <h2 className="text-lg font-semibold mb-4">Recent Activity</h2>
-        <div className="text-muted-foreground text-sm">
-          No recent activity to show.
-        </div>
+      <div className="grid gap-6 md:grid-cols-3">
+        <Link href="/admin/projects" className="p-6 rounded-xl border border-border bg-card shadow-sm hover:border-primary/40 transition-colors">
+          <div className="flex items-center gap-3">
+            <div className="p-3 rounded-lg bg-primary/10 text-primary">
+              <FolderKanban className="w-6 h-6" />
+            </div>
+            <div>
+              <h3 className="text-base font-semibold">Projects</h3>
+              <p className="text-xs text-muted-foreground">Manage portfolio showcase</p>
+            </div>
+          </div>
+        </Link>
+
+        <Link href="/admin/experience" className="p-6 rounded-xl border border-border bg-card shadow-sm hover:border-primary/40 transition-colors">
+          <div className="flex items-center gap-3">
+            <div className="p-3 rounded-lg bg-primary/10 text-primary">
+              <Briefcase className="w-6 h-6" />
+            </div>
+            <div>
+              <h3 className="text-base font-semibold">Experience & Education</h3>
+              <p className="text-xs text-muted-foreground">Manage career timeline</p>
+            </div>
+          </div>
+        </Link>
+
+        <Link href="/admin/contact" className="p-6 rounded-xl border border-border bg-card shadow-sm hover:border-primary/40 transition-colors">
+          <div className="flex items-center gap-3">
+            <div className="p-3 rounded-lg bg-primary/10 text-primary">
+              <Mail className="w-6 h-6" />
+            </div>
+            <div>
+              <h3 className="text-base font-semibold">Messages</h3>
+              <p className="text-xs text-muted-foreground">View contact submissions</p>
+            </div>
+          </div>
+        </Link>
       </div>
     </div>
   );

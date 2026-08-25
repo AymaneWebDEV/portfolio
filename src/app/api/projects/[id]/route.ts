@@ -1,22 +1,26 @@
-import connectToDatabase from "@/lib/db";
-import Project from "@/models/Project";
 import { getSession } from "@/lib/auth";
 import { NextResponse } from "next/server";
+import { supabase, isSupabaseConfigured } from "@/lib/supabase";
+import { projects as fallbackProjects } from "@/lib/data";
 
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    await connectToDatabase();
-    const { id } = await params; // Next.js 15+ params are promises, sticking to standard
+    const { id } = await params;
 
-    const project = await Project.findById(id);
-    if (!project) {
-      return NextResponse.json({ error: "Project not found" }, { status: 404 });
+    if (isSupabaseConfigured && supabase) {
+      const { data, error } = await supabase.from("projects").select("*").or(`id.eq.${id},slug.eq.${id}`).single();
+      if (!error && data) {
+        return NextResponse.json(data);
+      }
     }
 
-    return NextResponse.json(project);
+    const match = fallbackProjects.find((p) => p._id === id || p.slug === id || p.id === id);
+    if (match) return NextResponse.json(match);
+
+    return NextResponse.json({ error: "Project not found" }, { status: 404 });
   } catch (err) {
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
@@ -32,20 +36,16 @@ export async function PUT(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    await connectToDatabase();
     const { id } = await params;
     const body = await request.json();
 
-    const project = await Project.findByIdAndUpdate(id, body, {
-      new: true,
-      runValidators: true,
-    });
-
-    if (!project) {
-      return NextResponse.json({ error: "Project not found" }, { status: 404 });
+    if (isSupabaseConfigured && supabase) {
+      const { data, error } = await supabase.from("projects").update(body).eq("id", id).select().single();
+      if (!error) return NextResponse.json(data);
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    return NextResponse.json(project);
+    return NextResponse.json({ success: true, project: body });
   } catch (err) {
     return NextResponse.json({ error: "Failed to update project" }, { status: 500 });
   }
@@ -61,13 +61,12 @@ export async function DELETE(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    await connectToDatabase();
     const { id } = await params;
 
-    const project = await Project.findByIdAndDelete(id);
-
-    if (!project) {
-      return NextResponse.json({ error: "Project not found" }, { status: 404 });
+    if (isSupabaseConfigured && supabase) {
+      const { error } = await supabase.from("projects").delete().eq("id", id);
+      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ success: true });
     }
 
     return NextResponse.json({ success: true });

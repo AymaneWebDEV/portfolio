@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { LayoutDashboard, FolderKanban, FileText, LogOut, Mail, Briefcase } from "lucide-react";
+import { LayoutDashboard, FolderKanban, LogOut, Mail, Briefcase } from "lucide-react";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -12,7 +12,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { name: "Overview", href: "/admin", icon: LayoutDashboard },
     { name: "Projects", href: "/admin/projects", icon: FolderKanban },
     { name: "Experience", href: "/admin/experience", icon: Briefcase },
-    { name: "Updates", href: "/admin/updates", icon: FileText },
     { name: "Messages", href: "/admin/contact", icon: Mail },
   ];
 
