@@ -82,7 +82,7 @@ export default function ProjectForm({ project, isNew = false }: ProjectFormProps
 
       const payload = {
         ...formData,
-        technologies: formData.tech.split(",").map((t) => t.trim()).filter(Boolean),
+        technologies: formData.tech.split(",").map((t: string) => t.trim()).filter(Boolean),
         visuals: images,
         repoLink: formData.repo_link,
         demoLink: formData.demo_link,
