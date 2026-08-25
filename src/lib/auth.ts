@@ -84,7 +84,6 @@ export async function requestLoginOtp(password: string) {
     otpToken,
     email: ADMIN_EMAIL,
     maskedEmail: "aymaneharty@gmail.com",
-    demoCode: code, // Provided for user convenience if email provider is unconfigured
   };
 }
 
@@ -123,7 +122,6 @@ export async function requestPasswordResetOtp() {
     success: true,
     resetToken,
     email: ADMIN_EMAIL,
-    demoCode: code,
   };
 }
 

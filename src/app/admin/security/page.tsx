@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ShieldCheck, Mail, KeyRound, Loader2, CheckCircle2, ArrowRight } from "lucide-react";
+import { ShieldCheck, KeyRound, Loader2, CheckCircle2, ArrowRight } from "lucide-react";
 
 export default function AdminSecurityPage() {
   const [step, setStep] = useState<"request" | "verify">("request");
@@ -9,7 +9,6 @@ export default function AdminSecurityPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [code, setCode] = useState("");
   const [resetToken, setResetToken] = useState("");
-  const [demoCode, setDemoCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
@@ -42,7 +41,6 @@ export default function AdminSecurityPage() {
 
       if (res.ok && data.success) {
         setResetToken(data.resetToken);
-        setDemoCode(data.demoCode);
         setStep("verify");
       } else {
         setError(data.error || "Failed to generate verification code");
@@ -161,11 +159,6 @@ export default function AdminSecurityPage() {
           </form>
         ) : (
           <form onSubmit={handleConfirmReset} className="space-y-4">
-            <div className="p-3 rounded-xl bg-blue-500/10 border border-blue-500/20 text-xs text-blue-400 flex items-center justify-between">
-              <span>Verification Code Sent to Email:</span>
-              <span className="font-mono font-bold text-sm bg-blue-500/20 px-2 py-0.5 rounded text-foreground">{demoCode}</span>
-            </div>
-
             <div>
               <label className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1">
                 Enter 6-Digit Email Verification Code
