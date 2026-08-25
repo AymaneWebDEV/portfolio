@@ -1,25 +1,41 @@
-import connectToDatabase from "@/lib/db";
-import Project from "@/models/Project";
 import { getSession } from "@/lib/auth";
 import { NextResponse } from "next/server";
+import { projects as fallbackProjects } from "@/lib/data";
+import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 
 export async function GET(request: Request) {
   try {
-    await connectToDatabase();
-
     const { searchParams } = new URL(request.url);
     const slug = searchParams.get("slug");
     const featured = searchParams.get("featured");
 
-    let query: any = {};
-    if (slug) query.slug = slug;
-    if (featured === "true") query.featured = true;
+    if (isSupabaseConfigured && supabase) {
+      try {
+        let query = supabase.from("projects").select("*").order("created_at", { ascending: false });
+        if (slug) query = query.eq("slug", slug);
+        if (featured === "true") query = query.eq("featured", true);
 
-    const projects = await Project.find(query).sort({ createdAt: -1 });
+        const { data, error } = await query;
+        if (!error && data && data.length > 0) {
+          return NextResponse.json(data);
+        }
+      } catch (sbErr) {
+        console.warn("Supabase fetch failed, serving fallback data.", sbErr);
+      }
+    }
 
-    return NextResponse.json(projects);
+    // Filter fallback projects if params exist
+    let result = fallbackProjects;
+    if (slug) {
+      result = result.filter((p) => p.slug === slug);
+    }
+    if (featured === "true") {
+      result = result.filter((p) => p.featured);
+    }
+
+    return NextResponse.json(result);
   } catch (err) {
-    return NextResponse.json({ error: "Failed to fetch projects" }, { status: 500 });
+    return NextResponse.json(fallbackProjects);
   }
 }
 
@@ -30,16 +46,20 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    await connectToDatabase();
     const body = await request.json();
-
-    // Basic validation
     if (!body.title || !body.slug) {
       return NextResponse.json({ error: "Title and Slug are required" }, { status: 400 });
     }
 
-    const project = await Project.create(body);
-    return NextResponse.json(project, { status: 201 });
+    if (isSupabaseConfigured && supabase) {
+      const { data, error } = await supabase.from("projects").insert([body]).select().single();
+      if (error) {
+        return NextResponse.json({ error: error.message }, { status: 500 });
+      }
+      return NextResponse.json(data, { status: 201 });
+    }
+
+    return NextResponse.json({ message: "Mock project created (Supabase credentials missing)", project: body }, { status: 201 });
   } catch (err) {
     return NextResponse.json({ error: "Failed to create project" }, { status: 500 });
   }

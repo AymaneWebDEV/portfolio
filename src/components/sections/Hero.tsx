@@ -252,20 +252,25 @@ export function Hero() {
         {/* Main Heading */}
         <motion.h1
           variants={itemVariants}
-          className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter leading-[1.1] md:leading-[1.1]"
+          className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter leading-[1.15]"
         >
-          AI, DevOps &
+          AI, Software & Cloud
           <br />
-          Full-Stack <TypingText words={["Developer", "Engineer", "Architect", "Creator"]} />
+          <TypingText words={[
+            "Deep Learning Engineer",
+            "Full-Stack Web Developer",
+            "Cloud & Big Data Systems",
+            "Software & Network Engineer"
+          ]} />
         </motion.h1>
 
         {/* Subtitle */}
         <motion.p
           variants={itemVariants}
-          className="max-w-[550px] text-muted-foreground text-sm md:text-base leading-relaxed"
+          className="max-w-[650px] text-muted-foreground text-sm md:text-base leading-relaxed"
         >
-          Crafting <span className="text-foreground font-medium">scalable applications</span> and exploring the frontiers of{" "}
-          <span className="text-foreground font-medium">Artificial Intelligence</span>.
+          Engineering intelligent solutions at the intersection of <span className="text-foreground font-medium">Artificial Intelligence & Computer Vision</span>,{" "}
+          <span className="text-foreground font-medium">Scalable Web & Software Architecture</span>, and modern <span className="text-foreground font-medium">Cloud & Big Data Infrastructure</span>.
         </motion.p>
 
 

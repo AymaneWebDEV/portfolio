@@ -3,13 +3,14 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { Layout, Server, Brain, Rocket, Wrench, Database, Sparkles, Network, MessageSquare } from "lucide-react";
+import { Layout, Server, Brain, Rocket, Wrench, Database, Sparkles, Network, MessageSquare, Cloud, Cpu, Eye, Activity } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import {
   SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiAngular,
   SiHtml5, SiCss3, SiBootstrap,
   SiNodedotjs, SiExpress, SiLaravel, SiPython, SiFlask,
   SiPandas, SiNumpy, SiScikitlearn, SiPytorch, SiTensorflow, SiSpacy,
+  SiOpencv, SiStreamlit, SiApachespark, SiApachekafka, SiNvidia,
   SiDocker, SiKubernetes, SiJenkins, SiTerraform, SiAnsible, SiProxmox, SiVmware,
   SiGit, SiGithub, SiJira, SiSonarqube, SiPostman,
   SiMongodb, SiMysql, SiSqlite
@@ -25,6 +26,31 @@ interface Skill {
 }
 
 const skills: Record<string, Skill[]> = {
+  "Data & AI": [
+    { name: "PyTorch", icon: SiPytorch, color: "#EE4C2C" },
+    { name: "OpenCV", icon: SiOpencv, color: "#5C3EE8" },
+    { name: "CUDA & GPU", icon: SiNvidia, color: "#76B900" },
+    { name: "Streamlit", icon: SiStreamlit, color: "#FF4B4B" },
+    { name: "Scikit-learn", icon: SiScikitlearn, color: "#F7931E" },
+    { name: "Deep Learning", icon: Network, color: "#EC4899" },
+    { name: "Computer Vision", icon: Eye, color: "#3B82F6" },
+    { name: "TensorFlow", icon: SiTensorflow, color: "#FF6F00" },
+    { name: "Pandas", icon: SiPandas, color: "#150458" },
+    { name: "NumPy", icon: SiNumpy, color: "#013243" },
+    { name: "SpaCy", icon: SiSpacy, color: "#09A3D5" },
+    { name: "Generative AI", icon: Sparkles, color: "#9333EA" },
+  ],
+  "Cloud & DevOps": [
+    { name: "Docker", icon: SiDocker, color: "#2496ED" },
+    { name: "Kubernetes", icon: SiKubernetes, color: "#326CE5" },
+    { name: "Apache Spark", icon: SiApachespark, color: "#E25A1C" },
+    { name: "Apache Kafka", icon: SiApachekafka, color: "#231F20" },
+    { name: "Jenkins", icon: SiJenkins, color: "#D24939" },
+    { name: "Terraform", icon: SiTerraform, color: "#7B42BC" },
+    { name: "Ansible", icon: SiAnsible, color: "#EE0000" },
+    { name: "Proxmox", icon: SiProxmox, color: "#E57000" },
+    { name: "VMware", icon: SiVmware, color: "#607078" },
+  ],
   Frontend: [
     { name: "React", icon: SiReact, color: "#61DAFB" },
     { name: "Next.js", icon: SiNextdotjs, color: "#ffffff" },
@@ -37,32 +63,12 @@ const skills: Record<string, Skill[]> = {
     { name: "Framer Motion", icon: TbBrandFramerMotion, color: "#0055FF" },
   ],
   Backend: [
+    { name: "Python", icon: SiPython, color: "#3776AB" },
     { name: "Node.js", icon: SiNodedotjs, color: "#339933" },
     { name: "Express", icon: SiExpress, color: "#ffffff" },
     { name: "Laravel", icon: SiLaravel, color: "#FF2D20" },
     { name: "Java", icon: FaJava, color: "#ED8B00" },
-    { name: "Python", icon: SiPython, color: "#3776AB" },
     { name: "Flask", icon: SiFlask, color: "#ffffff" },
-  ],
-  "Data & AI": [
-    { name: "Generative AI", icon: Sparkles, color: "#9333EA" },
-    { name: "Deep Learning", icon: Network, color: "#EC4899" },
-    { name: "NLP", icon: MessageSquare, color: "#3B82F6" },
-    { name: "PyTorch", icon: SiPytorch, color: "#EE4C2C" },
-    { name: "TensorFlow", icon: SiTensorflow, color: "#FF6F00" },
-    { name: "SpaCy", icon: SiSpacy, color: "#09A3D5" },
-    { name: "Pandas", icon: SiPandas, color: "#150458" },
-    { name: "NumPy", icon: SiNumpy, color: "#013243" },
-    { name: "Scikit-learn", icon: SiScikitlearn, color: "#F7931E" },
-  ],
-  DevOps: [
-    { name: "Docker", icon: SiDocker, color: "#2496ED" },
-    { name: "Kubernetes", icon: SiKubernetes, color: "#326CE5" },
-    { name: "Jenkins", icon: SiJenkins, color: "#D24939" },
-    { name: "Terraform", icon: SiTerraform, color: "#7B42BC" },
-    { name: "Ansible", icon: SiAnsible, color: "#EE0000" },
-    { name: "Proxmox", icon: SiProxmox, color: "#E57000" },
-    { name: "VMware", icon: SiVmware, color: "#607078" },
   ],
   Tools: [
     { name: "Git", icon: SiGit, color: "#F05032" },
@@ -81,10 +87,10 @@ const skills: Record<string, Skill[]> = {
 const categories = Object.keys(skills);
 
 const tabIcons: Record<string, LucideIcon> = {
+  "Data & AI": Brain,
+  "Cloud & DevOps": Cloud,
   Frontend: Layout,
   Backend: Server,
-  "Data & AI": Brain,
-  DevOps: Rocket,
   Tools: Wrench,
   Databases: Database,
 };
