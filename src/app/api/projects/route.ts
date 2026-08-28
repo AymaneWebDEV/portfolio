@@ -51,15 +51,29 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Title and Slug are required" }, { status: 400 });
     }
 
+    const sanitized: Record<string, any> = {
+      title: body.title,
+      slug: body.slug,
+      category: body.category || "Full Stack",
+      year: body.year || new Date().getFullYear().toString(),
+      description: body.description || "",
+      content: body.content || "",
+      technologies: Array.isArray(body.technologies) ? body.technologies : [],
+      visuals: Array.isArray(body.visuals) ? body.visuals : [],
+      repo_link: body.repo_link ?? body.repoLink ?? null,
+      demo_link: body.demo_link ?? body.demoLink ?? null,
+      featured: !!body.featured,
+    };
+
     if (isSupabaseConfigured && supabase) {
-      const { data, error } = await supabase.from("projects").insert([body]).select().single();
+      const { data, error } = await supabase.from("projects").insert([sanitized]).select().single();
       if (error) {
         return NextResponse.json({ error: error.message }, { status: 500 });
       }
       return NextResponse.json(data, { status: 201 });
     }
 
-    return NextResponse.json({ message: "Mock project created (Supabase credentials missing)", project: body }, { status: 201 });
+    return NextResponse.json({ message: "Mock project created", project: sanitized }, { status: 201 });
   } catch (err) {
     return NextResponse.json({ error: "Failed to create project" }, { status: 500 });
   }

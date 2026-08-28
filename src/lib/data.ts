@@ -72,8 +72,8 @@ export const projects: ProjectItem[] = [
       "ROC-AUC"
     ],
     tech: ["Python", "PyTorch", "CUDA", "OpenCV", "Streamlit"],
-    visuals: ["/projects/thyroid-ai.jpg"],
-    image: "/projects/thyroid-ai.jpg",
+    visuals: ["/projects/thyroid-ai.png"],
+    image: "/projects/thyroid-ai.png",
     repoLink: "https://github.com/AymaneWebDEV",
     demoLink: "#"
   },
@@ -97,8 +97,8 @@ export const projects: ProjectItem[] = [
     `,
     technologies: ["React.js", "Spring Boot", "Rasa NLP", "JWT", "Proxmox", "VMware", "Java"],
     tech: ["React.js", "Spring Boot", "Rasa NLP", "Proxmox"],
-    visuals: ["/placeholder-project.jpg"],
-    image: "/placeholder-project.jpg",
+    visuals: ["/projects/accent-ai.png"],
+    image: "/projects/accent-ai.png",
     repoLink: "https://github.com/AymaneWebDEV",
     demoLink: "#"
   },
@@ -122,8 +122,8 @@ export const projects: ProjectItem[] = [
     `,
     technologies: ["React.js", "Laravel", "PHP", "MySQL", "JWT", "Tailwind CSS"],
     tech: ["React.js", "Laravel", "MySQL", "JWT"],
-    visuals: ["/placeholder-project.jpg"],
-    image: "/placeholder-project.jpg",
+    visuals: ["/projects/codepeak.png"],
+    image: "/projects/codepeak.png",
     repoLink: "https://github.com/AymaneWebDEV",
     demoLink: "#"
   },
@@ -146,8 +146,8 @@ export const projects: ProjectItem[] = [
     `,
     technologies: ["Python", "Apache Spark", "Kafka", "MongoDB", "Docker", "Flask"],
     tech: ["Python", "Spark", "Kafka", "MongoDB"],
-    visuals: ["/projects/bigdata-engine.jpg"],
-    image: "/projects/bigdata-engine.jpg",
+    visuals: ["/projects/bigdata-engine.png"],
+    image: "/projects/bigdata-engine.png",
     repoLink: "https://github.com/AymaneWebDEV",
     demoLink: "#"
   },
@@ -170,8 +170,8 @@ export const projects: ProjectItem[] = [
     `,
     technologies: ["Python", "Tkinter", "SQLite", "Software Engineering"],
     tech: ["Python", "Tkinter", "SQLite"],
-    visuals: ["/placeholder-project.jpg"],
-    image: "/placeholder-project.jpg",
+    visuals: ["/projects/timetable.png"],
+    image: "/projects/timetable.png",
     repoLink: "https://github.com/AymaneWebDEV",
     demoLink: "#"
   },
@@ -189,8 +189,8 @@ export const projects: ProjectItem[] = [
     `,
     technologies: ["HTML5", "CSS3", "Bootstrap", "JavaScript"],
     tech: ["HTML5", "CSS3", "Bootstrap"],
-    visuals: ["/placeholder-project.jpg"],
-    image: "/placeholder-project.jpg",
+    visuals: ["/projects/ramzo.png"],
+    image: "/projects/ramzo.png",
     repoLink: "https://github.com/AymaneWebDEV",
     demoLink: "#"
   },
@@ -204,12 +204,12 @@ export const projects: ProjectItem[] = [
     featured: false,
     description: "Virtualization and infrastructure setup using Proxmox and VMware for managing isolated environments and Docker containers.",
     content: `
-      Virtualized infrastructure setup managing home-lab services, automated backups, Docker container orchestration, and isolated network subnets.
+      Engineered a personal virtualization lab for deploying microservices, practicing continuous integration, and managing virtual machines with automated configuration tools.
     `,
-    technologies: ["Proxmox", "Docker", "Linux", "VMware", "Networking"],
-    tech: ["Proxmox", "Docker", "Linux", "Networking"],
-    visuals: ["/placeholder-project.jpg"],
-    image: "/placeholder-project.jpg",
+    technologies: ["Proxmox", "VMware", "Linux", "Docker", "Bash"],
+    tech: ["Proxmox", "VMware", "Linux", "Docker"],
+    visuals: ["/projects/accent-ai.png"],
+    image: "/projects/accent-ai.png",
     repoLink: "https://github.com/AymaneWebDEV",
     demoLink: "#"
   }

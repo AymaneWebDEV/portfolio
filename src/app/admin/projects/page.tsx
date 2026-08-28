@@ -42,7 +42,7 @@ export default function AdminProjects() {
     try {
       const res = await fetch(`/api/projects/${id}`, { method: "DELETE" });
       if (res.ok) {
-        setProjects(projects.filter((p) => (p.id || p._id) !== id));
+        setProjects(projects.filter((p) => (p.id || p._id || p.slug) !== id));
       } else {
         alert("Failed to delete project");
       }

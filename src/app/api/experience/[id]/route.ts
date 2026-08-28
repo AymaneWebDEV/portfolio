@@ -10,13 +10,26 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
     const { id } = await params;
     const body = await request.json();
 
+    const sanitized: Record<string, any> = {};
+    if (body.type !== undefined) sanitized.type = body.type;
+    if (body.title !== undefined) sanitized.title = body.title;
+    if (body.organization !== undefined) sanitized.organization = body.organization;
+    if (body.period !== undefined) sanitized.period = body.period;
+    if (body.description !== undefined) sanitized.description = body.description;
+    if (body.tags !== undefined) sanitized.tags = Array.isArray(body.tags) ? body.tags : [];
+    if (body.details !== undefined) sanitized.details = Array.isArray(body.details) ? body.details : [];
+    if (body.order_index !== undefined || body.order !== undefined) {
+      sanitized.order_index = body.order_index ?? body.order ?? 0;
+    }
+
     if (isSupabaseConfigured && supabase) {
-      const { data, error } = await supabase.from("experiences").update(body).eq("id", id).select().single();
+      const { data, error } = await supabase.from("experiences").update(sanitized).eq("id", id).select().single();
       if (!error) return NextResponse.json(data);
+      console.error("Supabase update experience error:", error);
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    return NextResponse.json({ success: true, experience: body });
+    return NextResponse.json({ success: true, experience: sanitized });
   } catch (error) {
     console.error("Update experience error:", error);
     return NextResponse.json({ error: "Failed to update." }, { status: 500 });
@@ -32,7 +45,10 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
 
     if (isSupabaseConfigured && supabase) {
       const { error } = await supabase.from("experiences").delete().eq("id", id);
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) {
+        console.error("Supabase delete experience error:", error);
+        return NextResponse.json({ error: error.message }, { status: 500 });
+      }
       return NextResponse.json({ success: true });
     }
 

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ExternalLink, Github, ArrowRight, Loader2, Sparkles, Brain, Database, Layers, Server } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { projects as staticProjects, ProjectItem } from "@/lib/data";
 
@@ -104,31 +105,42 @@ export function Projects() {
                   )}
                 >
                   {/* Card Header Visual */}
-                  <div className="aspect-video relative overflow-hidden bg-gradient-to-br from-slate-900 via-purple-950/40 to-slate-900 flex items-center justify-center p-6 border-b border-border/40">
-                    {/* Visual pattern overlay */}
-                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent" />
-                    
-                    {/* Visual Icon */}
-                    <div className="relative z-10 flex flex-col items-center text-center gap-2 group-hover:scale-105 transition-transform duration-300">
-                      {isAI ? (
-                        <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-600 to-purple-600 flex items-center justify-center shadow-lg shadow-purple-500/30">
-                          <Brain className="w-7 h-7 text-white" />
+                  <div className="aspect-video relative overflow-hidden bg-gradient-to-br from-slate-900 via-purple-950/40 to-slate-900 flex items-center justify-center border-b border-border/40">
+                    {project.visuals?.[0] && !project.visuals[0].includes("placeholder") ? (
+                      <div className="relative w-full h-full">
+                        <Image
+                          src={project.visuals[0]}
+                          alt={project.title}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                      </div>
+                    ) : (
+                      <>
+                        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent" />
+                        <div className="relative z-10 flex flex-col items-center text-center gap-2 group-hover:scale-105 transition-transform duration-300">
+                          {isAI ? (
+                            <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-600 to-purple-600 flex items-center justify-center shadow-lg shadow-purple-500/30">
+                              <Brain className="w-7 h-7 text-white" />
+                            </div>
+                          ) : project.category === "Big Data & Cloud" ? (
+                            <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-orange-500 to-amber-600 flex items-center justify-center shadow-lg shadow-orange-500/30">
+                              <Database className="w-7 h-7 text-white" />
+                            </div>
+                          ) : project.category === "DevOps" ? (
+                            <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-cyan-600 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/30">
+                              <Server className="w-7 h-7 text-white" />
+                            </div>
+                          ) : (
+                            <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-purple-600 to-pink-600 flex items-center justify-center shadow-lg shadow-pink-500/30">
+                              <Layers className="w-7 h-7 text-white" />
+                            </div>
+                          )}
+                          <span className="text-xs font-mono tracking-wider text-muted-foreground/90 uppercase">{project.category}</span>
                         </div>
-                      ) : project.category === "Big Data & Cloud" ? (
-                        <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-orange-500 to-amber-600 flex items-center justify-center shadow-lg shadow-orange-500/30">
-                          <Database className="w-7 h-7 text-white" />
-                        </div>
-                      ) : project.category === "DevOps" ? (
-                        <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-cyan-600 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/30">
-                          <Server className="w-7 h-7 text-white" />
-                        </div>
-                      ) : (
-                        <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-purple-600 to-pink-600 flex items-center justify-center shadow-lg shadow-pink-500/30">
-                          <Layers className="w-7 h-7 text-white" />
-                        </div>
-                      )}
-                      <span className="text-xs font-mono tracking-wider text-muted-foreground/90 uppercase">{project.category}</span>
-                    </div>
+                      </>
+                    )}
 
                     {/* Badge Overlay */}
                     <div className="absolute top-3 left-3 flex flex-wrap gap-1.5 z-20">

@@ -13,7 +13,7 @@ import {
   SiOpencv, SiStreamlit, SiApachespark, SiApachekafka, SiNvidia,
   SiDocker, SiKubernetes, SiJenkins, SiTerraform, SiAnsible, SiProxmox, SiVmware,
   SiGit, SiGithub, SiJira, SiSonarqube, SiPostman,
-  SiMongodb, SiMysql, SiSqlite
+  SiMongodb, SiMysql, SiSqlite, SiPostgresql, SiSupabase
 } from "react-icons/si";
 import { FaJava } from "react-icons/fa";
 import { TbBrandFramerMotion } from "react-icons/tb";
@@ -78,9 +78,11 @@ const skills: Record<string, Skill[]> = {
     { name: "Postman", icon: SiPostman, color: "#FF6C37" },
   ],
   Databases: [
-    { name: "MongoDB", icon: SiMongodb, color: "#47A248" },
+    { name: "PostgreSQL", icon: SiPostgresql, color: "#4169E1" },
+    { name: "Supabase", icon: SiSupabase, color: "#3ECF8E" },
     { name: "MySQL", icon: SiMysql, color: "#4479A1" },
     { name: "SQLite", icon: SiSqlite, color: "#003B57" },
+    { name: "MongoDB", icon: SiMongodb, color: "#47A248" },
   ],
 };
 

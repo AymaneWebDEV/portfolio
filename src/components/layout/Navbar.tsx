@@ -8,10 +8,10 @@ import { ThemeSwitcher } from "@/components/theme-switcher";
 
 const navItems = [
   { name: "Home", href: "/", icon: Home },
-  { name: "Skills", href: "#technologies", icon: Cpu },
-  { name: "Projects", href: "#projects", icon: FolderGit2 },
-  { name: "Experience", href: "#experience", icon: Briefcase },
-  { name: "Contact", href: "#contact", icon: Mail },
+  { name: "Skills", href: "/#technologies", icon: Cpu },
+  { name: "Projects", href: "/#projects", icon: FolderGit2 },
+  { name: "Experience", href: "/#experience", icon: Briefcase },
+  { name: "Contact", href: "/#contact", icon: Mail },
 ];
 
 export function Navbar() {

@@ -1,42 +1,55 @@
 import { notFound } from "next/navigation";
-import connectToDatabase from "@/lib/db";
-import Project, { IProject } from "@/models/Project";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import Link from "next/link";
-import { ArrowLeft, Github, ExternalLink, Sparkles, Brain, Database, Server, Layers } from "lucide-react";
+import Image from "next/image";
+import { ArrowLeft, Github, ExternalLink, Brain, Database, Server, Layers } from "lucide-react";
 import { projects as fallbackProjects, ProjectItem } from "@/lib/data";
+import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 
 interface Props {
   params: Promise<{ id: string }>;
 }
 
-async function getProject(slug: string): Promise<ProjectItem | null> {
-  try {
-    await connectToDatabase();
-    const dbProject = await Project.findOne({ slug }).lean();
-    if (dbProject) {
-      return {
-        _id: String((dbProject as any)._id),
-        title: dbProject.title,
-        slug: dbProject.slug,
-        category: (dbProject as any).category || "AI & Deep Learning",
-        description: dbProject.description,
-        content: dbProject.content,
-        technologies: dbProject.technologies || [],
-        visuals: dbProject.visuals || [],
-        repoLink: dbProject.repoLink,
-        demoLink: dbProject.demoLink,
-        featured: dbProject.featured,
-        year: (dbProject as any).year || "2026",
-      };
+const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+async function getProject(slugOrId: string): Promise<ProjectItem | null> {
+  // 1. Query Supabase
+  if (isSupabaseConfigured && supabase) {
+    try {
+      const isUUID = UUID_REGEX.test(slugOrId);
+      const query = supabase.from("projects").select("*");
+      const { data, error } = isUUID
+        ? await query.eq("id", slugOrId).maybeSingle()
+        : await query.eq("slug", slugOrId).maybeSingle();
+
+      if (!error && data) {
+        return {
+          id: data.id,
+          _id: data.id,
+          title: data.title,
+          slug: data.slug,
+          category: data.category || "AI & Deep Learning",
+          description: data.description,
+          content: data.content,
+          technologies: data.technologies || [],
+          tech: data.technologies || [],
+          visuals: data.visuals || [],
+          image: data.visuals?.[0] || undefined,
+          repoLink: data.repo_link || undefined,
+          demoLink: data.demo_link || undefined,
+          featured: data.featured,
+          year: data.year || "2026",
+        };
+      }
+    } catch (err) {
+      console.warn("Supabase lookup error in project detail page, falling back to static data.");
     }
-  } catch (error) {
-    console.warn("DB lookup failed in project page, falling back to static data.");
   }
 
+  // 2. Fallback to static data
   const staticMatch = fallbackProjects.find(
-    (p) => p.slug === slug || p._id === slug || p.id === slug
+    (p) => p.slug === slugOrId || p._id === slugOrId || p.id === slugOrId
   );
 
   return staticMatch || null;
@@ -51,6 +64,7 @@ export default async function ProjectPage({ params }: Props) {
   }
 
   const isAI = project.category === "AI & Deep Learning";
+  const heroVisual = project.visuals?.[0] || project.image;
 
   return (
     <main className="min-h-screen bg-background">
@@ -67,29 +81,47 @@ export default async function ProjectPage({ params }: Props) {
         <div className="grid md:grid-cols-12 gap-10 items-start">
           {/* Visual Header / Banner */}
           <div className="md:col-span-5 space-y-6">
-            <div className="aspect-video md:aspect-square rounded-2xl bg-gradient-to-br from-slate-900 via-purple-950/60 to-slate-900 border border-border flex flex-col items-center justify-center p-8 relative overflow-hidden shadow-xl">
+            <div className="aspect-video md:aspect-square rounded-2xl bg-gradient-to-br from-slate-900 via-purple-950/60 to-slate-900 border border-border flex flex-col items-center justify-center p-6 relative overflow-hidden shadow-xl group">
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent" />
-              
-              <div className="relative z-10 flex flex-col items-center text-center gap-4">
-                {isAI ? (
-                  <div className="w-20 h-20 rounded-3xl bg-gradient-to-tr from-blue-600 to-purple-600 flex items-center justify-center shadow-xl shadow-purple-500/40">
-                    <Brain className="w-10 h-10 text-white" />
+
+              {heroVisual && !heroVisual.includes("placeholder") ? (
+                <div className="relative w-full h-full rounded-xl overflow-hidden">
+                  <Image
+                    src={heroVisual}
+                    alt={project.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    priority
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                  <div className="absolute bottom-3 left-3 right-3 text-left">
+                    <span className="text-[10px] font-mono tracking-widest text-primary-foreground/90 uppercase bg-black/60 px-2 py-0.5 rounded backdrop-blur-sm">
+                      {project.category}
+                    </span>
                   </div>
-                ) : project.category === "Big Data & Cloud" ? (
-                  <div className="w-20 h-20 rounded-3xl bg-gradient-to-tr from-orange-500 to-amber-600 flex items-center justify-center shadow-xl shadow-orange-500/40">
-                    <Database className="w-10 h-10 text-white" />
-                  </div>
-                ) : project.category === "DevOps" ? (
-                  <div className="w-20 h-20 rounded-3xl bg-gradient-to-tr from-cyan-600 to-blue-600 flex items-center justify-center shadow-xl shadow-blue-500/40">
-                    <Server className="w-10 h-10 text-white" />
-                  </div>
-                ) : (
-                  <div className="w-20 h-20 rounded-3xl bg-gradient-to-tr from-purple-600 to-pink-600 flex items-center justify-center shadow-xl shadow-pink-500/40">
-                    <Layers className="w-10 h-10 text-white" />
-                  </div>
-                )}
-                <span className="text-xs font-mono tracking-widest text-muted-foreground uppercase">{project.category}</span>
-              </div>
+                </div>
+              ) : (
+                <div className="relative z-10 flex flex-col items-center text-center gap-4">
+                  {isAI ? (
+                    <div className="w-20 h-20 rounded-3xl bg-gradient-to-tr from-blue-600 to-purple-600 flex items-center justify-center shadow-xl shadow-purple-500/40">
+                      <Brain className="w-10 h-10 text-white" />
+                    </div>
+                  ) : project.category === "Big Data & Cloud" ? (
+                    <div className="w-20 h-20 rounded-3xl bg-gradient-to-tr from-orange-500 to-amber-600 flex items-center justify-center shadow-xl shadow-orange-500/40">
+                      <Database className="w-10 h-10 text-white" />
+                    </div>
+                  ) : project.category === "DevOps" ? (
+                    <div className="w-20 h-20 rounded-3xl bg-gradient-to-tr from-cyan-600 to-blue-600 flex items-center justify-center shadow-xl shadow-blue-500/40">
+                      <Server className="w-10 h-10 text-white" />
+                    </div>
+                  ) : (
+                    <div className="w-20 h-20 rounded-3xl bg-gradient-to-tr from-purple-600 to-pink-600 flex items-center justify-center shadow-xl shadow-pink-500/40">
+                      <Layers className="w-10 h-10 text-white" />
+                    </div>
+                  )}
+                  <span className="text-xs font-mono tracking-widest text-muted-foreground uppercase">{project.category}</span>
+                </div>
+              )}
             </div>
 
             {/* Links */}

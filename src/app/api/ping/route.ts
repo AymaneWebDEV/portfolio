@@ -1,24 +1,26 @@
 import { NextResponse } from "next/server";
-import connectToDatabase from "@/lib/db";
+import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 
 export async function GET() {
   try {
-    // Connect to the database
-    const db = await connectToDatabase();
-    
-    // Send a minimal ping command to keep the cluster active
-    if (db.connection.db) {
-      await db.connection.db.command({ ping: 1 });
+    if (isSupabaseConfigured && supabase) {
+      const { data, error } = await supabase.from("projects").select("id").limit(1);
+      if (!error) {
+        return NextResponse.json(
+          { status: "success", provider: "supabase", message: "Database active and responsive" },
+          { status: 200 }
+        );
+      }
     }
 
     return NextResponse.json(
-      { status: "success", message: "Database pinged successfully" },
+      { status: "ok", provider: "local", message: "Application responsive" },
       { status: 200 }
     );
   } catch (error) {
     console.error("Ping error:", error);
     return NextResponse.json(
-      { status: "error", message: "Failed to ping database" },
+      { status: "error", message: "Health check failed" },
       { status: 500 }
     );
   }

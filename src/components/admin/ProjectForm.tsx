@@ -76,16 +76,22 @@ export default function ProjectForm({ project, isNew = false }: ProjectFormProps
     setLoading(true);
 
     try {
-      const projectId = project?.id || project?._id;
+      const projectId = project?.id || project?._id || project?.slug;
       const url = isNew ? "/api/projects" : `/api/projects/${projectId}`;
       const method = isNew ? "POST" : "PUT";
 
       const payload = {
-        ...formData,
+        title: formData.title,
+        slug: formData.slug,
+        category: formData.category,
+        year: formData.year,
+        description: formData.description,
+        content: formData.content,
         technologies: formData.tech.split(",").map((t: string) => t.trim()).filter(Boolean),
         visuals: images,
-        repoLink: formData.repo_link,
-        demoLink: formData.demo_link,
+        repo_link: formData.repo_link || null,
+        demo_link: formData.demo_link || null,
+        featured: formData.featured,
       };
 
       const res = await fetch(url, {
@@ -95,8 +101,7 @@ export default function ProjectForm({ project, isNew = false }: ProjectFormProps
       });
 
       if (res.ok) {
-        router.push("/admin/projects");
-        router.refresh();
+        window.location.href = "/admin/projects";
       } else {
         const err = await res.json();
         alert(err.error || "Something went wrong");

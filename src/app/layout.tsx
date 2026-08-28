@@ -14,9 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ahmed Aymane Harty | Full-Stack Developer & AI Enthusiast",
-  description: "Portfolio of a Full-Stack Developer specializing in Application Development and AI. Built with Next.js 14, React, and MongoDB.",
-  keywords: ["Full-Stack Developer", "AI", "Next.js", "React", "Portfolio", "Web Development"],
+  title: "Ahmed Aymane Harty | Software Engineer & AI Specialist",
+  description: "Portfolio of Ahmed Aymane Harty — Software Engineer specializing in Artificial Intelligence, Deep Learning, Computer Vision, and Full-Stack Cloud Architecture.",
+  keywords: ["Ahmed Aymane Harty", "Artificial Intelligence", "Deep Learning", "PyTorch", "Computer Vision", "Software Engineer", "Full-Stack", "React", "Next.js", "Portfolio"],
 };
 
 export default function RootLayout({
