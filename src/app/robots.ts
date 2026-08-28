@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://portfolio-sigma-one-w7d0hheyr2.vercel.app";
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://harty.web";
 
   return {
     rules: [
