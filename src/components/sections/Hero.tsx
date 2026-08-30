@@ -227,7 +227,7 @@ export function Hero() {
         variants={containerVariants}
         initial="hidden"
         animate="show"
-        className="container px-4 md:px-6 flex flex-col items-center text-center space-y-5 relative z-10"
+        className="container mx-auto px-4 md:px-6 flex flex-col items-center text-center space-y-5 relative z-10"
       >
         {/* Status Badge */}
         <motion.div variants={itemVariants} className="group relative">

@@ -46,7 +46,7 @@ export function Projects() {
       {/* Background decoration */}
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_80%_50%_at_50%_0%,rgba(120,119,198,0.06),transparent)]" />
 
-      <div className="container px-4 md:px-6">
+      <div className="container mx-auto px-4 md:px-6">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
           <div className="space-y-4">
             <span className="text-primary font-medium text-sm tracking-wider uppercase">Portfolio Showcase</span>

@@ -104,7 +104,7 @@ export function Navbar() {
       {/* Mobile Menu */}
       {isOpen && (
         <div className="md:hidden border-t border-border/50 bg-background/95 backdrop-blur-xl">
-          <div className="container px-4 py-4 space-y-1">
+          <div className="container mx-auto px-4 py-4 space-y-1">
             {navItems.map((item) => {
               const Icon = item.icon;
               return (

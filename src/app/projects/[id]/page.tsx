@@ -70,7 +70,7 @@ export default async function ProjectPage({ params }: Props) {
     <main className="min-h-screen bg-background">
       <Navbar />
 
-      <div className="container py-24 px-4 md:px-6 max-w-5xl">
+      <div className="container mx-auto py-24 px-4 md:px-6 max-w-5xl">
         <Link
           href="/#projects"
           className="inline-flex items-center text-sm font-medium text-muted-foreground hover:text-foreground mb-8 transition-colors"
