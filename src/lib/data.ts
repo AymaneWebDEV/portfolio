@@ -212,6 +212,56 @@ export const projects: ProjectItem[] = [
     image: "/projects/accent-ai.png",
     repoLink: "https://github.com/AymaneWebDEV",
     demoLink: "#"
+  },
+  {
+    _id: "accent-helpdesk-system",
+    id: "accent-helpdesk-system",
+    title: "Accent Helpdesk & Ticket Management Platform",
+    slug: "accent-helpdesk-system",
+    category: "Full Stack",
+    year: "2025",
+    featured: true,
+    description: "Internal IT support and ticketing application built during internship at Accent - DBM Maroc for managing user incident requests, ticket lifecycle, and resolution workflows.",
+    content: `
+      Developed during my web development internship at **Accent - DBM Maroc Mohammedia**, this Helpdesk system centralizes internal support inquiries and standardizes issue resolution tracking.
+
+      ### Key Features
+      - **Ticket Lifecycle & Routing**: Automated ticket generation, priority grading (Critical, High, Normal), and department assignment.
+      - **Interactive User Portal**: Clean dashboard for employees to submit incident tickets, track resolution status in real time, and reply to agent notes.
+      - **Agent & Admin Dashboard**: Multi-role interface powered by JWT authentication, allowing support teams to filter, assign, and resolve user requests.
+      - **Responsive UI**: Built with React.js and modern styling, ensuring seamless access across desktop workstations and mobile devices.
+    `,
+    technologies: ["React.js", "Node.js", "MySQL", "JWT", "Tailwind CSS", "REST API"],
+    tech: ["React.js", "Node.js", "MySQL", "JWT"],
+    visuals: ["/projects/accent-ai.png"],
+    image: "/projects/accent-ai.png",
+    repoLink: "https://github.com/AymaneWebDEV",
+    demoLink: "#"
+  },
+  {
+    _id: "accent-showcase-website",
+    id: "accent-showcase-website",
+    title: "Accent Corporate Showcase Website",
+    slug: "accent-showcase-website",
+    category: "Frontend",
+    year: "2025",
+    featured: true,
+    description: "Modern and responsive corporate showcase platform built for Accent - DBM Maroc Mohammedia to present brand hardware lineups, products, and technical specifications.",
+    content: `
+      Engineered at **Accent - DBM Maroc Mohammedia**, this corporate showcase website delivers a modern, high-performance brand presence for Accent's technology and hardware lineup.
+
+      ### Key Features
+      - **Modern Brand Presentation**: Elegant showcase interface highlighting computers, tablets, and consumer electronics with high visual fidelity.
+      - **Interactive Product Catalog**: Dynamic category filtering, detailed specification sheets, and optimized media galleries.
+      - **Mobile-First Responsiveness**: Tailored layouts and touch-friendly controls across smartphones, tablets, and desktop displays.
+      - **Performance & SEO Optimization**: Lightweight architecture ensuring fast initial page loads, semantic HTML structure, and clean user experience.
+    `,
+    technologies: ["React.js", "JavaScript", "HTML5", "CSS3", "Bootstrap", "Tailwind CSS"],
+    tech: ["React.js", "JavaScript", "Bootstrap", "HTML5"],
+    visuals: ["/projects/accent-ai.png"],
+    image: "/projects/accent-ai.png",
+    repoLink: "https://github.com/AymaneWebDEV",
+    demoLink: "#"
   }
 ];
 
