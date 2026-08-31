@@ -10,7 +10,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: result.error }, { status: 401 });
     }
 
-    return NextResponse.json(result);
+    return NextResponse.json({ ...result, step: "otp_required" });
   } catch (err) {
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
