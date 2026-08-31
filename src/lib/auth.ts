@@ -179,7 +179,7 @@ export function verifyOTP(email: string, inputCode: string): { valid: boolean; m
 export async function requestLoginOtp(passwordInput: string): Promise<{ success: boolean; otpToken?: string; error?: string }> {
   const currentPassword = await getAdminPassword();
 
-  if (passwordInput !== currentPassword) {
+  if (passwordInput.trim() !== currentPassword.trim()) {
     return { success: false, error: "Invalid password." };
   }
 
