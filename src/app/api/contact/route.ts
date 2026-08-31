@@ -83,6 +83,7 @@ export async function GET() {
       const { data, error } = await supabase
         .from("contacts")
         .select("*")
+        .neq("subject", "__ADMIN_SETTINGS__")
         .order("created_at", { ascending: false });
 
       if (!error && data) {
