@@ -3,7 +3,7 @@ export interface ProjectItem {
   id?: string;
   title: string;
   slug: string;
-  category: "AI & Deep Learning" | "Full Stack" | "Frontend" | "DevOps" | "Big Data & Cloud" | "Software Engineering";
+  category: "AI & Deep Learning" | "Full Stack" | "Frontend" | "DevOps" | "Big Data & Cloud" | "Software Engineering" | "B2B AI Automation" | "Autonomous Systems" | "Multi-Agent Systems" | "Developer Tools";
   description: string;
   content: string;
   technologies: string[];
@@ -262,6 +262,119 @@ export const projects: ProjectItem[] = [
     image: "/projects/accent-ai.png",
     repoLink: "https://github.com/AymaneWebDEV",
     demoLink: "#"
+  },
+  {
+    _id: "nexusbuilds-proposal-ai",
+    id: "nexusbuilds-proposal-ai",
+    title: "ProposalAI Pro — RFP Analysis & Proposal Generation Engine",
+    slug: "nexusbuilds-proposal-ai",
+    category: "B2B AI Automation",
+    year: "2025",
+    featured: true,
+    description: "Context-aware RFP analysis and technical proposal generation engine for tech agencies and freelance developers — powered by RAG, Claude API, and multi-document vector search.",
+    content: `
+      **ProposalAI Pro** is a production-grade B2B AI automation system built under the **NexusBuilds** brand, designed to eliminate the manual bottleneck of writing technical proposals in response to Requests for Proposals (RFPs).
+
+      ### Key Features
+      - **RAG-Powered Extraction**: Multi-document retrieval-augmented generation pipeline for automated project scope analysis, budget estimation, and requirement decomposition from unstructured RFP documents.
+      - **Dynamic Milestone Decomposition**: Automatically generates phase-by-phase execution milestones, recommended tech stacks, resource allocation, and risk assessment matrices tailored to each client context.
+      - **Structured Deliverable Export**: Automated export to structured Markdown reports and presentation-ready client deliverables — reducing proposal turnaround from hours to minutes.
+      - **Pydantic Schema Validation**: Strict output schema enforcement ensures deterministic, hallucination-free structured responses suitable for direct client delivery.
+
+      ### NexusBuilds Brand
+      ProposalAI Pro is part of the **NexusBuilds** production suite — a collection of autonomous AI systems and developer tools built for professional deployment.
+    `,
+    technologies: ["Python", "FastAPI", "RAG", "Vector Search", "Claude API", "Pydantic"],
+    tech: ["Python", "FastAPI", "Claude API", "RAG"],
+    visuals: ["/projects/accent-ai.png"],
+    image: "/projects/accent-ai.png",
+    repoLink: "https://github.com/AymaneWebDEV",
+    demoLink: "https://whop.com/nexusbuilds/proposalai-pro-fd/"
+  },
+  {
+    _id: "nexusbuilds-autostack-os",
+    id: "nexusbuilds-autostack-os",
+    title: "AutoStack OS — Micro-SaaS Scaffolding & Deployment Orchestrator",
+    slug: "nexusbuilds-autostack-os",
+    category: "Autonomous Systems",
+    year: "2025",
+    featured: true,
+    description: "Modular orchestration engine for automated micro-SaaS scaffolding and containerized deployment pipelines — one-command infrastructure generation with production-hardened Docker and CI/CD setup.",
+    content: `
+      **AutoStack OS** is an autonomous DevOps automation engine under the **NexusBuilds** brand, built to eliminate the repetitive scaffolding overhead of launching new micro-SaaS products.
+
+      ### Key Features
+      - **One-Command Infrastructure Generation**: Generates production-hardened multi-stage Dockerfiles, Nginx reverse-proxy configurations, and Docker Compose stacks from a single command — fully parameterized per project type.
+      - **Automated CI/CD Scaffolding**: Generates GitHub Actions workflow files for test, build, and deploy pipelines with environment-specific deployment gates.
+      - **Secrets Sanitation & Environment Isolation**: Automated environment variable scoping, secret detection, and \`.env\` template generation with zero-secret leakage guarantees.
+      - **Container Health Probes & Recovery**: Built-in health-check endpoint probing with automated restart and alerting routines for production stability.
+
+      ### NexusBuilds Brand
+      AutoStack OS is part of the **NexusBuilds** production suite — autonomous infrastructure tooling for independent developers and small product teams.
+    `,
+    technologies: ["Python", "Docker", "GitHub Actions", "Shell/Bash", "Linux", "Nginx"],
+    tech: ["Python", "Docker", "GitHub Actions", "Linux"],
+    visuals: ["/projects/accent-ai.png"],
+    image: "/projects/accent-ai.png",
+    repoLink: "https://github.com/AymaneWebDEV",
+    demoLink: "https://whop.com/nexusbuilds/autostack-os/"
+  },
+  {
+    _id: "nexusbuilds-agentstack",
+    id: "nexusbuilds-agentstack",
+    title: "AgentStack — Multi-Agent Code Review & Refactoring Framework",
+    slug: "nexusbuilds-agentstack",
+    category: "Multi-Agent Systems",
+    year: "2025",
+    featured: true,
+    description: "Deterministic multi-agent coordination framework for autonomous code review and refactoring loops — with role-separated agent topologies, strict JSON schema validation, and self-correcting linting cycles.",
+    content: `
+      **AgentStack** is a deterministic multi-agent software engineering framework under the **NexusBuilds** brand, designed to autonomously review, refactor, and validate codebases without human intervention in the loop.
+
+      ### Key Features
+      - **Role-Separated Agent Topologies**: Distinct specialized agents — System Architect, Code Reviewer, Security Auditor, and Test Generator — each operating within clearly defined responsibility boundaries.
+      - **Strict JSON Schema Communication**: All inter-agent message passing is validated against enforced Pydantic/JSON schemas, eliminating hallucinated context propagation between agent nodes.
+      - **Automated Git Diff Inspection**: Parses Git diffs programmatically to scope reviews to changed code surfaces only, improving precision and reducing token overhead.
+      - **Self-Correcting Linting & Test Loops**: Integrated PyTest execution with automated failure triage, self-correction cycles, and structured remediation proposals from the Code Reviewer agent.
+
+      ### NexusBuilds Brand
+      AgentStack is part of the **NexusBuilds** production suite — autonomous software engineering infrastructure for advanced developer workflows.
+    `,
+    technologies: ["Python", "AsyncIO", "LangGraph", "State Machines", "PyTest", "Git"],
+    tech: ["Python", "AsyncIO", "LangGraph", "PyTest"],
+    visuals: ["/projects/accent-ai.png"],
+    image: "/projects/accent-ai.png",
+    repoLink: "https://github.com/AymaneWebDEV",
+    demoLink: "https://whop.com/nexusbuilds/agentcraft-os/"
+  },
+  {
+    _id: "nexusbuilds-prompt-vault",
+    id: "nexusbuilds-prompt-vault",
+    title: "Developer & AI System Prompt Vault — NexusBuilds",
+    slug: "nexusbuilds-prompt-vault",
+    category: "Developer Tools",
+    year: "2025",
+    featured: true,
+    description: "150+ deterministic system prompts, clean architecture blueprints, and production .cursorrules for Claude 3.5 Sonnet, GPT-4o, and Cursor IDE — available in Global English and French editions.",
+    content: `
+      The **Developer & AI System Prompt Vault** is a production-grade developer toolkit published under the **NexusBuilds** brand, delivering deterministic AI instruction sets for professional software engineering workflows.
+
+      ### Key Features
+      - **150+ Categorized Instruction Sets**: Enforcing Domain-Driven Design (DDD), Clean Architecture boundaries, and strict SOLID refactoring rules across all major AI coding assistants.
+      - **Hermetic Unit Test Generation**: Automated PyTest and Jest harness generation using AAA (Arrange-Act-Assert) patterns with full boundary-condition assertions and edge-case coverage.
+      - **OWASP Top 10 Security Audits**: Systematic security review prompts covering injection, broken auth, XSS, CSRF, insecure deserialization, and more.
+      - **Production Container Generators**: Multi-stage Dockerfile and Docker Compose generators optimized for minimal image sizes and hardened production environments.
+      - **Bilingual Release**: Available in Global English and French editions — built for international developer communities.
+
+      ### Live Release
+      Published and actively maintained on Gumroad and under the NexusBuilds storefront with two production editions.
+    `,
+    technologies: ["Claude 3.5 Sonnet", "GPT-4o", "Cursor IDE", "Python", "Clean Architecture", ".cursorrules"],
+    tech: ["Claude 3.5 Sonnet", "Cursor IDE", "Python", ".cursorrules"],
+    visuals: ["/projects/accent-ai.png"],
+    image: "/projects/accent-ai.png",
+    repoLink: "https://github.com/AymaneWebDEV/developer-prompt-vault",
+    demoLink: "https://nexusbuilds.gumroad.com/l/developer-prompt-vault"
   }
 ];
 
